@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CaseWatch — Community Safety</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080a0f;
+  --bg2:#0c0f17;
+  --bg3:#111520;
+  --surface:#141829;
+  --surface2:#1a1f32;
+  --accent:#c8a96e;
+  --accent2:#e0c98a;
+  --red:#c0392b;
+  --green:#1a7a4a;
+  --text:#d8dce8;
+  --muted:#6b7294;
+  --border:rgba(200,169,110,0.12);
+  --border2:rgba(200,169,110,0.22);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;line-height:1.65;overflow-x:hidden}
+
+/* NOISE OVERLAY */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:64px;border-bottom:1px solid var(--border)}
+nav::before{content:'';position:absolute;inset:0;background:rgba(8,10,15,.92);backdrop-filter:blur(20px);z-index:-1}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--accent);letter-spacing:.04em}
+.nav-links{display:flex;gap:2.5rem}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.nav-discord{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--border2);padding:.4rem 1rem;border-radius:2px;text-decoration:none;transition:background .2s,color .2s}
+.nav-discord:hover{background:var(--accent);color:var(--bg)}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding:100px 2rem 5rem;position:relative}
+.hero-rule{width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--accent),transparent);margin:0 auto 2.5rem}
+.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem}
+h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,6.5rem);font-weight:900;line-height:1;color:#fff;max-width:900px;margin:0 auto 1rem;letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--accent)}
+.hero-divider{display:flex;align-items:center;gap:1rem;max-width:400px;margin:2rem auto}
+.hero-divider span{flex:1;height:1px;background:var(--border)}
+.hero-divider i{color:var(--accent);font-size:.7rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;white-space:nowrap}
+.hero-sub{color:var(--muted);font-size:1rem;max-width:500px;margin:0 auto 3rem;line-height:1.75}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-gold{background:var(--accent);color:var(--bg);text-decoration:none;padding:.75rem 2rem;font-family:'IBM Plex Mono',monospace;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;font-weight:500;transition:background .2s}
+.btn-gold:hover{background:var(--accent2)}
+.btn-outline{border:1px solid var(--border2);color:var(--muted);text-decoration:none;padding:.75rem 2rem;font-family:'IBM Plex Mono',monospace;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;transition:border-color .2s,color .2s}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+/* MARQUEE */
+.marquee-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.8rem 0;overflow:hidden;background:var(--bg2)}
+.marquee-inner{display:flex;gap:3rem;animation:scroll 22s linear infinite;white-space:nowrap}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.marquee-item span{color:var(--accent);margin-right:.5rem}
+
+/* MISSION */
+.mission{padding:7rem 2rem;position:relative}
+.container{max-width:1080px;margin:0 auto}
+.section-tag{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
+.section-tag::before{content:'';width:30px;height:1px;background:var(--accent)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:3rem}
+.mission-text h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:1.5rem}
+.mission-text p{color:var(--muted);font-size:.95rem;line-height:1.8;margin-bottom:1rem}
+.mission-pillars{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.pillar{background:var(--bg);padding:1.3rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:background .2s}
+.pillar:hover{background:var(--surface)}
+.pillar-icon{font-size:1.1rem;margin-top:.1rem;min-width:24px}
+.pillar-body h4{font-size:.88rem;font-weight:500;color:#fff;margin-bottom:.25rem}
+.pillar-body p{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+/* OWNER SPEECH */
+.speech{padding:7rem 2rem;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.speech-inner{max-width:780px;margin:0 auto}
+.speech-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:3rem}
+.speech-avatar{width:64px;height:64px;border-radius:50%;background:var(--surface2);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.speech-meta h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff}
+.speech-meta p{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem}
+.speech-badge{font-family:'IBM Plex Mono',monospace;font-size:.65rem;background:rgba(200,169,110,.1);border:1px solid var(--border2);color:var(--accent);padding:.2rem .6rem;border-radius:1px;display:inline-block;margin-top:.4rem;letter-spacing:.06em}
+.speech-rule{width:40px;height:2px;background:var(--accent);margin:2rem 0}
+.speech-quote{font-family:'Playfair Display',serif;font-size:1.5rem;font-style:italic;color:#fff;line-height:1.5;margin-bottom:2rem;padding-left:1.5rem;border-left:2px solid var(--accent)}
+.speech-body p{color:var(--muted);font-size:.95rem;line-height:1.85;margin-bottom:1.25rem}
+.speech-body p:last-child{margin-bottom:0}
+.speech-sig{margin-top:2.5rem;font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+
+/* WHAT WE DO */
+.what{padding:7rem 2rem}
+.what-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:3rem}
+.what-cell{background:var(--bg);padding:2rem 1.75rem;transition:background .2s}
+.what-cell:hover{background:var(--surface)}
+.what-num{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.1em;margin-bottom:1rem}
+.what-cell h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.75rem}
+.what-cell p{font-size:.85rem;color:var(--muted);line-height:1.7}
+
+/* JOIN */
+.join{padding:7rem 2rem;background:var(--bg2);border-top:1px solid var(--border);text-align:center}
+.join-inner{max-width:600px;margin:0 auto}
+.join-rule-top{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--accent));margin:0 auto 2rem}
+.join h2{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1.25rem}
+.join p{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem;line-height:1.75}
+.join-rule-bot{width:1px;height:50px;background:linear-gradient(to bottom,var(--accent),transparent);margin:2.5rem auto 0}
+
+/* FOOTER */
+footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer .footer-logo{font-family:'Playfair Display',serif;color:var(--accent);font-size:.95rem}
+footer p{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:.06em}
+footer a{color:var(--muted);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--accent)}
+
+@media(max-width:768px){
+  nav{padding:0 1.25rem}
+  .nav-links{display:none}
+  .mission-grid{grid-template-columns:1fr;gap:2.5rem}
+  .what-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">CaseWatch</div>
+  <div class="nav-links">
+    <a href="#mission">Mission</a>
+    <a href="#owner">Founder</a>
+    <a href="#what-we-do">What We Do</a>
+    <a href="#join">Join</a>
+  </div>
+  <a href="https://discord.gg/PVZyJsRuUg" class="nav-discord">Join Server</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-rule"></div>
+    <p class="hero-eyebrow">Community Safety · Since 2026</p>
+    <h1>Where communities<br/>come to feel <em>safe.</em></h1>
+    <div class="hero-divider">
+      <span></span>
+      <i>Protection · Investigation · Justice</i>
+      <span></span>
+    </div>
+    <p class="hero-sub">CaseWatch is a safety-first Discord community built to protect its members, investigate misconduct, and hold bad actors accountable — professionally and transparently.</p>
+    <div class="hero-btns">
+      <a href="https://discord.gg/PVZyJsRuUg" class="btn-gold">Join the Server</a>
+      <a href="#mission" class="btn-outline">Our Mission</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-inner">
+    <span class="marquee-item"><span>🛡</span>Member Protection</span>
+    <span class="marquee-item"><span>🔎</span>Formal Investigations</span>
+    <span class="marquee-item"><span>📂</span>Case Management</span>
+    <span class="marquee-item"><span>🎫</span>Private Tickets</span>
+    <span class="marquee-item"><span>⚖️</span>Accountability</span>
+    <span class="marquee-item"><span>🛡</span>Member Protection</span>
+    <span class="marquee-item"><span>🔎</span>Formal Investigations</span>
+    <span class="marquee-item"><span>📂</span>Case Management</span>
+    <span class="marquee-item"><span>🎫</span>Private Tickets</span>
+    <span class="marquee-item"><span>⚖️</span>Accountability</span>
+    <span class="marquee-item"><span>🛡</span>Member Protection</span>
+    <span class="marquee-item"><span>🔎</span>Formal Investigations</span>
+    <span class="marquee-item"><span>📂</span>Case Management</span>
+    <span class="marquee-item"><span>🎫</span>Private Tickets</span>
+    <span class="marquee-item"><span>⚖️</span>Accountability</span>
+  </div>
+</div>
+
+<!-- MISSION -->
+<section class="mission" id="mission">
+  <div class="container">
+    <div class="section-tag">Our Mission</div>
+    <div class="mission-grid">
+      <div class="mission-text">
+        <h2>A server built on trust, not tolerance.</h2>
+        <p>Most Discord servers react to problems after they escalate. CaseWatch was designed from the ground up to catch issues early, handle them properly, and protect everyone involved — members and staff alike.</p>
+        <p>We don't believe in sweeping things under the rug. Every report is taken seriously, every case is documented, and every decision is made with care.</p>
+      </div>
+      <div class="mission-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">🛡</div>
+          <div class="pillar-body">
+            <h4>Protecting Members</h4>
+            <p>A confidential place to report harassment, scams, suspicious behavior, or unsafe situations — without fear of retaliation.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🔎</div>
+          <div class="pillar-body">
+            <h4>Real Investigations</h4>
+            <p>Reports aren't just read and forgotten. Staff review evidence, organize cases, and follow up with actual outcomes.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">⚖️</div>
+          <div class="pillar-body">
+            <h4>Fair Moderation</h4>
+            <p>Actions are proportionate, logged, and reviewable. Members can appeal. Nothing is arbitrary.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">📂</div>
+          <div class="pillar-body">
+            <h4>Transparent Records</h4>
+            <p>Every case has a number, status, and paper trail. Staff accountability is built into the process.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OWNER SPEECH -->
+<section class="speech" id="owner">
+  <div class="speech-inner">
+    <div class="section-tag">From the Founder</div>
+    <div class="speech-header">
+      <div class="speech-avatar">S</div>
+      <div class="speech-meta">
+        <h3>s1ahhupn3xt</h3>
+        <p>Founder &amp; Server Owner</p>
+        <span class="speech-badge">CaseWatch · Est. 2026</span>
+      </div>
+    </div>
+    <div class="speech-rule"></div>
+    <blockquote class="speech-quote">
+      "I didn't build this because I wanted power over a community. I built it because I was tired of watching people get hurt in spaces that were supposed to be safe."
+    </blockquote>
+    <div class="speech-body">
+      <p>I've been in enough Discord servers to know how badly things can go wrong. Staff that ignore reports. Moderators that abuse their position. Members who harass others and face zero consequences. I watched it happen over and over, and eventually I decided to stop waiting for someone else to build the right kind of server.</p>
+      <p>CaseWatch started as an idea — what if a community actually took safety seriously? Not just as a bullet point in the rules, but as the entire foundation? Every system here, from the ticket panel to the case numbers to the modlogs, was designed with one question in mind: if a member came to us scared or hurt, would they feel like we actually handled it?</p>
+      <p>I don't promise perfection. Staff are human, cases are complicated, and not every situation has a clean resolution. What I do promise is that we will always look, always document, and always give people a fair hearing. No one gets dismissed here. No report gets buried.</p>
+      <p>If you've been burned before by servers that didn't take you seriously — this one was made for you.</p>
+    </div>
+    <div class="speech-sig">— s1ahhupn3xt, Founder</div>
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section class="what" id="what-we-do">
+  <div class="container">
+    <div class="section-tag">What We Do</div>
+    <div class="what-grid">
+      <div class="what-cell">
+        <div class="what-num">01 —</div>
+        <h3>Member Reports</h3>
+        <p>Any member can open a private, confidential ticket to report rule-breaking, harassment, scams, or safety threats. Reports are reviewed by real staff, not bots.</p>
+      </div>
+      <div class="what-cell">
+        <div class="what-num">02 —</div>
+        <h3>Case Investigation</h3>
+        <p>Serious reports become numbered cases. Staff assign investigators, add evidence and notes, track status, and update the involved parties — start to finish.</p>
+      </div>
+      <div class="what-cell">
+        <div class="what-num">03 —</div>
+        <h3>Structured Moderation</h3>
+        <p>Warnings, mutes, bans, kicks, and timeouts are all logged with reasons and timestamps. Every action is tied to a staff member and reviewable.</p>
+      </div>
+      <div class="what-cell">
+        <div class="what-num">04 —</div>
+        <h3>Alert System</h3>
+        <p>Staff can flag known bad actors on an alert board so the whole team stays informed when flagged users enter or interact in the server.</p>
+      </div>
+      <div class="what-cell">
+        <div class="what-num">05 —</div>
+        <h3>Appeals Process</h3>
+        <p>Members who believe a punishment was unjust can submit a formal appeal. It goes directly to staff for review — no runarounds, no dismissals.</p>
+      </div>
+      <div class="what-cell">
+        <div class="what-num">06 —</div>
+        <h3>Staff Accountability</h3>
+        <p>Modlogs are permanent and searchable. No staff member can act without it being recorded. Abuse of power is just as much a violation as anything else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="join" id="join">
+  <div class="join-inner">
+    <div class="join-rule-top"></div>
+    <h2>Ready to be part of something safer?</h2>
+    <p>CaseWatch is open to anyone who believes online communities should be held to a higher standard. Join us, report what needs reporting, and help us build something that actually works.</p>
+    <div class="hero-btns">
+      <a href="https://discord.gg/PVZyJsRuUg" class="btn-gold">Join on Discord</a>
+    </div>
+    <div class="join-rule-bot"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">CaseWatch</div>
+  <p>Built &amp; operated by <a href="#">s1ahhupn3xt</a> · Community Safety · Discord Server</p>
+  <p>© 2026 CaseWatch</p>
+</footer>
+
+</body>
+</html>
